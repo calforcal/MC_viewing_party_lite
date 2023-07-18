@@ -12,12 +12,21 @@ RSpec.describe User, type: :model do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:email) }
     it { should validate_uniqueness_of(:email) }
+    it { should validate_presence_of(:password) }
+    it { should have_secure_password }
+
+    user = User.create(name: 'Mike', email: 'bikes@test.com', password: 'test', password_confirmation: 'test')
+
+    it "has a secure password attribute" do
+      expect(user).to_not have_attribute(:password)
+      expect(user.password_digest).to_not eq('password123')
+    end
   end
 
   describe 'instance methods' do
-    let!(:user1) { User.create!(name: 'Michael', email: 'mcalla123@gmail.com') }
-    let!(:user2) { User.create!(name: 'Garrett', email: 'garrett123@gmail.com') }
-    let!(:user3) { User.create!(name: 'Shannon', email: 'shannon123@gmail.com') }
+    let!(:user1) { User.create!(name: 'Michael', email: 'mcalla123@gmail.com', password: 'test', password_confirmation: 'test') }
+    let!(:user2) { User.create!(name: 'Garrett', email: 'garrett123@gmail.com', password: 'test', password_confirmation: 'test') }
+    let!(:user3) { User.create!(name: 'Shannon', email: 'shannon123@gmail.com', password: 'test', password_confirmation: 'test') }
 
     let!(:viewing_party_1) do
       ViewingParty.create!(

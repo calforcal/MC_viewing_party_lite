@@ -4,8 +4,8 @@ require 'rails_helper'
 
 RSpec.describe '/', type: :feature do
   describe 'landing page' do
-    let!(:user1) { User.create!(name: 'Michael', email: 'mcalla123@gmail.com') }
-    let!(:user2) { User.create!(name: 'Garrett', email: 'garrett123@gmail.com') }
+    let!(:user1) { User.create!(name: 'Michael', email: 'mcalla123@gmail.com', password: "test123", password_confirmation: "test123") }
+    let!(:user2) { User.create!(name: 'Garrett', email: 'garrett123@gmail.com', password: "test123", password_confirmation: "test123") }
 
     before(:each) do
       visit '/'
@@ -31,6 +31,12 @@ RSpec.describe '/', type: :feature do
 
     it 'displays a link to go back to the landing page' do
       expect(page).to have_link('Home', href: '/')
+    end
+
+    it 'displays a link thats take you to the login page' do
+      click_link "Log In"
+
+      expect(current_path).to eq(login_path)
     end
   end
 end
