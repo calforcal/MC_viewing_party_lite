@@ -71,7 +71,7 @@ RSpec.describe '/register', type: :feature do
         fill_in :user_password, with: password
         fill_in :user_password_confirmation, with: 'WRONG'
         click_button 'Create New User'
-        save_and_open_page
+
         expect(current_path).to eq(register_path)
         expect(page).to have_content("Error: Passwords don't match")
       end
@@ -82,7 +82,7 @@ RSpec.describe '/register', type: :feature do
         fill_in :user_password, with: ""
         fill_in :user_password_confirmation, with: ""
         click_button 'Create New User'
-        save_and_open_page
+
         expect(current_path).to eq(register_path)
         expect(page).to have_content("Error: Password can't be blank")
       end

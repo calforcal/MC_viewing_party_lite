@@ -32,5 +32,11 @@ RSpec.describe '/', type: :feature do
     it 'displays a link to go back to the landing page' do
       expect(page).to have_link('Home', href: '/')
     end
+
+    it 'displays a link thats take you to the login page' do
+      click_link "Log In"
+
+      expect(current_path).to eq(login_path)
+    end
   end
 end
