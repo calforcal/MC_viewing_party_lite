@@ -38,5 +38,35 @@ RSpec.describe '/', type: :feature do
 
       expect(current_path).to eq(login_path)
     end
+
+    it 'does not display a Log In link if a session is active' do
+      click_link "Log In"
+      fill_in :email, with: user1.email
+      fill_in :password, with: user1.password
+      click_button "Log In"
+
+      visit '/'
+
+      expect(page).to_not have_link("Log In")
+    end
+
+    it 'displays a Log Out link, and no log in or create user, if a session is active' do
+      click_link "Log In"
+      fill_in :email, with: user1.email
+      fill_in :password, with: user1.password
+      click_button "Log In"
+
+      visit '/'
+
+      expect(page).to_not have_link("Log In")
+      expect(page).to_not have_button("Create New User")
+
+      click_link "Log Out"
+
+      expect(current_path).to eq(root_path)
+
+      expect(page).to have_link("Log In")
+      expect(page).to have_button("Create New User")
+    end
   end
 end

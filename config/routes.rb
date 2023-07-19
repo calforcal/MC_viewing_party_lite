@@ -7,8 +7,9 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   root 'application#home'
-  get '/login', to: 'users#login_form'
-  post '/login', to: 'users#login'
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  delete '/sessions', to: 'sessions#destroy'
   get '/register', to: 'users#new'
 
   resources :users, only: %i[new create show] do
