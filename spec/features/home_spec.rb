@@ -68,5 +68,24 @@ RSpec.describe '/', type: :feature do
         expect(page).to_not have_link(user2.email.to_s, href: user_path(user2))
       end
     end
+
+    describe 'as a registered user' do
+      it 'displays the registered users as a list, not links' do
+        click_link "Log In"
+        fill_in :email, with: user1.email
+        fill_in :password, with: user1.password
+        click_button "Log In"
+  
+        visit root_path
+
+        within ".existing-users" do
+          expect(page).to_not have_link(user1.email)
+          expect(page).to_not have_link(user2.email)
+
+          expect(page).to have_content(user1.email)
+          expect(page).to have_content(user2.email)
+        end
+      end
+    end
   end
 end
