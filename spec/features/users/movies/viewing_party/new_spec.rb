@@ -9,14 +9,20 @@ RSpec.describe '/users/:id/movies/viewing_party/new', type: :feature do
     let!(:user3) { User.create!(name: 'Shannon', email: 'Shannon123@gmail.com', password: "test123", password_confirmation: "test123") }
 
     before(:each) do
-      visit new_user_movie_viewing_party_path(user1, 238)
+      visit '/'
+      click_link "Log In"
+      fill_in :email, with: user1.email
+      fill_in :password, with: user1.password
+      click_button "Log In"
+      
+      visit new_movie_viewing_party_path(238)
     end
 
     ## This is causing an error with VCR
     # it 'has a button to return to the discover page', :vcr do
     #   click_button('Discover Page')
 
-    #   expect(current_path).to eq(user_discover_index_path(user1))
+    #   expect(current_path).to eq(discover_index_path)
     # end
 
     it 'has the name of the movie', :vcr do
@@ -33,7 +39,7 @@ RSpec.describe '/users/:id/movies/viewing_party/new', type: :feature do
         find(:css, "#user_ids_[value=#{user2.id}]").set(true)
         find(:css, "#user_ids_[value=#{user3.id}]").set(true)
         click_on('Create Party')
-        expect(current_path).to eq(user_path(user1))
+        expect(current_path).to eq(dashboard_path(user1))
       end
     end
   end

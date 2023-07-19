@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class MoviesController < ApplicationController
-  before_action :find_user
+  # before_action :find_user
 
   def index
     @facade = if params[:q] == 'top 20rated'
@@ -19,7 +19,7 @@ class MoviesController < ApplicationController
 
   private
 
-  def find_user
-    @user = User.find(params[:user_id])
-  end
+  # def find_user
+  #   @user = User.find(params[:user_id])
+  # end
 end

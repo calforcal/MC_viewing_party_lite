@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     if params[:user][:password] == params[:user][:password_confirmation] && new_user.save
       session[:user_id] = new_user.id
       flash[:success] = "Welcome, #{new_user.name}!"
-      redirect_to user_path(new_user)
+      redirect_to dashboard_path(new_user)
     elsif params[:user][:password] != params[:user][:password_confirmation]
       redirect_to register_path
       flash[:mismatch] = "Error: Passwords don't match"
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.find(params[:format])
     @movie_facade = MovieFacade.new(params[:id])
   end
 

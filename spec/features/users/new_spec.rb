@@ -21,7 +21,7 @@ RSpec.describe '/register', type: :feature do
         fill_in :user_password_confirmation, with: password_confirmation
         click_button 'Create New User'
 
-        expect(current_path).to eq(user_path(User.last))
+        expect(current_path).to eq(dashboard_path(User.last))
       end
 
       it 'registers a new user with unique email but duplicate name' do
@@ -32,7 +32,7 @@ RSpec.describe '/register', type: :feature do
         fill_in :user_password_confirmation, with: password_confirmation
         click_button 'Create New User'
 
-        expect(current_path).to eq(user_path(User.last))
+        expect(current_path).to eq(dashboard_path(User.last))
       end
     end
 

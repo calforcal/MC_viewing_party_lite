@@ -8,19 +8,26 @@ RSpec.describe '/users/:id/movies/:id', type: :feature do
     let!(:user2) { User.create!(name: 'Garrett', email: 'garrett123@gmail.com', password: "test123", password_confirmation: "test123") }
 
     before(:each) do
-      visit user_movie_path(user1, 238)
+      visit '/'
+      click_link "Log In"
+      fill_in :email, with: user1.email
+      fill_in :password, with: user1.password
+      click_button "Log In"
+      
+      visit movie_path(238)
+
     end
 
     it 'has a button to return to the discover page', :vcr do
       click_button('Discover Page')
 
-      expect(current_path).to eq(user_discover_index_path(user1))
+      expect(current_path).to eq(discover_index_path)
     end
 
     it 'has a button to create a viewing party for the movie', :vcr do
       click_button('Create Viewing Party for The Godfather')
 
-      expect(current_path).to eq(new_user_movie_viewing_party_path(user1, 238))
+      expect(current_path).to eq(new_movie_viewing_party_path(238))
     end
 
     it 'has info about the movie', :vcr do

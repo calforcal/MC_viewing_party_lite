@@ -64,8 +64,12 @@ RSpec.describe '/', type: :feature do
 
     describe 'as a visitor' do
       it 'no longer displays a list of existing users' do
-        expect(page).to_not have_link(user1.email.to_s, href: user_path(user1))
-        expect(page).to_not have_link(user2.email.to_s, href: user_path(user2))
+        expect(page).to_not have_link(user1.email.to_s, href: dashboard_path(user1))
+        expect(page).to_not have_link(user2.email.to_s, href: dashboard_path(user2))
+      end
+
+      it 'does not allow visitors to travel to the dashboard' do
+
       end
     end
 

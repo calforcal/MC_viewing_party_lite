@@ -17,13 +17,13 @@ class ViewingPartiesController < ApplicationController
         viewing_party_id: viewing_party.id
       )
     end
-    redirect_to user_path(@user)
+    redirect_to dashboard_path(@user)
   end
 
   private
 
   def find_user
-    @user = User.find(params[:user_id])
+    @user = User.find(session[:user_id])
   end
 
   def viewing_party_params
