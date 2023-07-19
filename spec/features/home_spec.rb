@@ -22,13 +22,6 @@ RSpec.describe '/', type: :feature do
       expect(current_path).to eq('/register')
     end
 
-    it 'displays a list of existing users, that links to the users dashboard' do
-      within '.existing-users' do
-        expect(page).to have_link(user1.email.to_s, href: user_path(user1))
-        expect(page).to have_link(user2.email.to_s, href: user_path(user2))
-      end
-    end
-
     it 'displays a link to go back to the landing page' do
       expect(page).to have_link('Home', href: '/')
     end
@@ -67,6 +60,13 @@ RSpec.describe '/', type: :feature do
 
       expect(page).to have_link("Log In")
       expect(page).to have_button("Create New User")
+    end
+
+    describe 'as a visitor' do
+      it 'no longer displays a list of existing users' do
+        expect(page).to_not have_link(user1.email.to_s, href: user_path(user1))
+        expect(page).to_not have_link(user2.email.to_s, href: user_path(user2))
+      end
     end
   end
 end
