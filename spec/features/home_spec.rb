@@ -69,7 +69,19 @@ RSpec.describe '/', type: :feature do
       end
 
       it 'does not allow visitors to travel to the dashboard' do
+        visit '/dashboard'
 
+        expect(current_path).to eq('/')
+        expect(page).to have_content('Must be registered and logged in to view dashboard')
+      end
+
+      it 'does not allow a visitor to create a viewing party', :vcr do
+        visit movie_path(238)
+
+        click_button "Create Viewing Party for The Godfather"
+
+        expect(current_path).to eq(movie_path(238))
+        expect(page).to have_content('Must be registered and logged in to create a Viewing Party')
       end
     end
 

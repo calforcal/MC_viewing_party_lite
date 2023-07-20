@@ -8,6 +8,6 @@ class DiscoverController < ApplicationController
   private
 
   # def find_user
-  #   @user = User.find(params[:format])
+  #   @user = User.find(session[:user_id])
   # end
 end

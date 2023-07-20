@@ -28,6 +28,14 @@ RSpec.describe '/users/:id', type: :feature do
       )
     end
 
+    before(:each) do
+      visit '/'
+      click_link "Log In"
+      fill_in :email, with: user1.email
+      fill_in :password, with: user1.password
+      click_button "Log In"
+    end
+
     let!(:party_1) { UserParty.create!(user_id: user2.id, viewing_party_id: viewing_party_1.id) }
 
     let!(:party_2) { UserParty.create!(user_id: user3.id, viewing_party_id: viewing_party_2.id) }
@@ -69,6 +77,13 @@ RSpec.describe '/users/:id', type: :feature do
     end
 
     it 'has a section for viewing parties a user was invited to', :vcr do
+      visit '/'
+      click_link "Log Out"
+      click_link "Log In"
+      fill_in :email, with: user2.email
+      fill_in :password, with: user2.password
+      click_button "Log In"
+      
       visit dashboard_path(user2)
 
       within "#invited-party-#{viewing_party_1.id}" do
@@ -82,6 +97,13 @@ RSpec.describe '/users/:id', type: :feature do
         # ^ can't find way to specify bold text
         expect(page).to have_content(user2.name)
       end
+
+      visit '/'
+      click_link "Log Out"
+      click_link "Log In"
+      fill_in :email, with: user3.email
+      fill_in :password, with: user3.password
+      click_button "Log In"
 
       visit dashboard_path(user3)
 

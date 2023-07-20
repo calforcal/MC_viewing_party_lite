@@ -22,13 +22,22 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:format])
-    @movie_facade = MovieFacade.new(params[:id])
+    if registered?
+      @user = User.find(session[:user_id])
+      @movie_facade = MovieFacade.new(params[:id])
+    else
+      redirect_to root_path
+      flash[:invalid] = 'Must be registered and logged in to view dashboard'
+    end
   end
 
   private
 
   def user_params
     params.require(:user).permit(:name, :email, :password)
+  end
+
+  def registered?
+    if session[:user_id] then true else false end
   end
 end
