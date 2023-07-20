@@ -1,14 +1,19 @@
 <% if session[:user_id] %>
-  <%= link_to "Log Out", sessions_path, method: :delete %>
+  <%= link_to "Log Out", login_path, data: { "turbo-method": :delete } %>
+  <br>
+  <div class="existing-users">
+    <h3>Existing Users</h3>
+    <ul>
+      <% @users.each do |user| %>
+        <li><%= "#{user.email}" %></li>
+      <% end %>
+    </ul>
+  </div>
 <% else %>
   <%= link_to "Log In", login_path, method: :get %>
   <%= button_to "Create New User", "/register", method: :get %>
 <% end %>
-
-
-<div class="existing-users">
-  <h3>Existing Users</h3>
-  <% @users.each do |user| %>
-    <%= link_to "#{user.email}", user_path(user) %>
-  <% end %>
+<br>
+<div class='discover-movies'>
+  <%= button_to 'Discover Movies', discover_index_path, method: :get %>
 </div>

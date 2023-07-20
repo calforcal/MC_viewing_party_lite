@@ -28,29 +28,37 @@ RSpec.describe '/users/:id', type: :feature do
       )
     end
 
+    before(:each) do
+      visit '/'
+      click_link "Log In"
+      fill_in :email, with: user1.email
+      fill_in :password, with: user1.password
+      click_button "Log In"
+    end
+
     let!(:party_1) { UserParty.create!(user_id: user2.id, viewing_party_id: viewing_party_1.id) }
 
     let!(:party_2) { UserParty.create!(user_id: user3.id, viewing_party_id: viewing_party_2.id) }
 
     it 'displays a users name at the top of the page', :vcr do
-      visit user_path(user1)
+      visit dashboard_path(user1)
 
       expect(page).to have_content("#{user1.name}'s Dashboard")
       expect(page).to_not have_content("#{user2.name}'s Dashboard")
     end
 
     it 'has a css class with a button to discover movies', :vcr do
-      visit user_path(user1)
+      visit dashboard_path(user1)
 
       within '.discover-movies' do
         click_button 'Discover Movies'
 
-        expect(current_path).to eq(user_discover_index_path(user1))
+        expect(current_path).to eq(discover_index_path)
       end
     end
 
     it 'has a section that lists a users hosted viewing parties', :vcr do
-      visit user_path(user1)
+      visit dashboard_path(user1)
 
       expect(page).to have_css '.viewing-parties'
 
@@ -69,7 +77,14 @@ RSpec.describe '/users/:id', type: :feature do
     end
 
     it 'has a section for viewing parties a user was invited to', :vcr do
-      visit user_path(user2)
+      visit '/'
+      click_link "Log Out"
+      click_link "Log In"
+      fill_in :email, with: user2.email
+      fill_in :password, with: user2.password
+      click_button "Log In"
+      
+      visit dashboard_path(user2)
 
       within "#invited-party-#{viewing_party_1.id}" do
         expect(page).to have_css('.poster')
@@ -83,7 +98,14 @@ RSpec.describe '/users/:id', type: :feature do
         expect(page).to have_content(user2.name)
       end
 
-      visit user_path(user3)
+      visit '/'
+      click_link "Log Out"
+      click_link "Log In"
+      fill_in :email, with: user3.email
+      fill_in :password, with: user3.password
+      click_button "Log In"
+
+      visit dashboard_path(user3)
 
       within "#invited-party-#{viewing_party_2.id}" do
         expect(page).to have_css('.poster')

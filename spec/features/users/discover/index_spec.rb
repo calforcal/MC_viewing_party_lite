@@ -8,13 +8,13 @@ RSpec.describe '/users/:id/discover', type: :feature do
     let!(:user2) { User.create!(name: 'Garrett', email: 'garrett123@gmail.com', password: "test123", password_confirmation: "test123") }
 
     before(:each) do
-      visit user_discover_index_path(user1)
+      visit discover_index_path
     end
 
     it 'has a button to discover top rated movies', :vcr do
       within '.top-movies' do
         click_button('Find Top Rated Movies')
-        expect(current_path).to eq(user_movies_path(user1))
+        expect(current_path).to eq(movies_path)
       end
     end
 
@@ -28,7 +28,7 @@ RSpec.describe '/users/:id/discover', type: :feature do
       within '.search-movies' do
         fill_in('Search:', with: 'Fight Club')
         click_button('Find Movies')
-        expect(current_path).to eq(user_movies_path(user1))
+        expect(current_path).to eq(movies_path)
       end
     end
   end

@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     if user.authenticate(params[:password])
       session[:user_id] = user.id
       flash[:success] = "Welcome, #{user.name}!"
-      redirect_to user_path(user)
+      redirect_to dashboard_path(user)
     else
       flash[:error] = "Error: Credentials are incorrect"
       render :new
@@ -16,6 +16,6 @@ class SessionsController < ApplicationController
 
   def destroy
     session.clear
-    redirect_to root_path
+    redirect_to '/'
   end
 end

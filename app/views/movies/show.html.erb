@@ -1,6 +1,6 @@
 <h3 class='title'><%= @movie_facade.movie_details_show.title %></h3>
-<%= button_to 'Discover Page', user_discover_index_path(@user), method: :get %>
-<%= button_to "Create Viewing Party for #{@movie_facade.movie_details_show.title}", new_user_movie_viewing_party_path(@user, @movie_facade.movie_details_show.id), method: :get %>
+<%= button_to 'Discover Page', discover_index_path, method: :get %>
+<%= button_to "Create Viewing Party for #{@movie_facade.movie_details_show.title}", new_movie_viewing_party_path(@movie_facade.movie_details_show.id), method: :get %>
 
 <h5 class='vote_average'>Vote: <%= @movie_facade.movie_details_show.vote_average %></h5>
 <h5 class='runtime'>Runtime: <%= @movie_facade.movie_details_show.runtime %></h5>

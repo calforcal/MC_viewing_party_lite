@@ -8,14 +8,14 @@ RSpec.describe '/users/:id/movies', type: :feature do
     let!(:user2) { User.create!(name: 'Garrett', email: 'garrett123@gmail.com', password: "test123", password_confirmation: "test123") }
 
     before(:each) do
-      visit user_discover_index_path(user1)
+      visit discover_index_path
       click_button 'Find Top Rated Movies'
     end
 
     it 'has a button to return to the discover page', :vcr do
       click_button('Discover Page')
 
-      expect(current_path).to eq(user_discover_index_path(user1))
+      expect(current_path).to eq(discover_index_path)
     end
 
     it 'has the title of the movie as a link to the movie details page', :vcr do
@@ -43,7 +43,7 @@ RSpec.describe '/users/:id/movies', type: :feature do
 
     describe 'happy path' do
       before(:each) do
-        visit user_discover_index_path(user1)
+        visit discover_index_path
         fill_in('Search:', with: 'Fight Club')
         click_button('Find Movies')
       end
@@ -51,7 +51,7 @@ RSpec.describe '/users/:id/movies', type: :feature do
       it 'has a button to return to the discover page', :vcr do
         click_button('Discover Page')
 
-        expect(current_path).to eq(user_discover_index_path(user1))
+        expect(current_path).to eq(discover_index_path)
       end
 
       it 'has the title of the movie as a link to the movie details page', :vcr do
@@ -75,7 +75,7 @@ RSpec.describe '/users/:id/movies', type: :feature do
 
     describe 'edge cases' do
       before(:each) do
-        visit user_discover_index_path(user1)
+        visit discover_index_path
         fill_in('Search:', with: 'Batman')
         click_button('Find Movies')
       end

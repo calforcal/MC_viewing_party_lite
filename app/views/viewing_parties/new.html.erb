@@ -4,7 +4,7 @@
 <br>
 <div class='viewing-party-form'>
   <h3>Viewing Party Details</h3>
-  <%= form_with url: user_movie_viewing_parties_path(@user, @movie_facade.movie_details_show.id), method: :post, local: true do |f| %>
+  <%= form_with url: movie_viewing_parties_path(@movie_facade.movie_details_show.id), method: :post, local: true do |f| %>
     <%= f.label "Movie Title: #{@movie_facade.movie_details_show.title}" %>
     <br>
     <%= f.label 'Duration' %>

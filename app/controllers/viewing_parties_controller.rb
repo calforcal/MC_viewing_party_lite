@@ -6,24 +6,36 @@ class ViewingPartiesController < ApplicationController
   def new
     @movie_facade = MovieFacade.new(params[:movie_id])
     @users = User.excluding(@user)
+    if !session[:user_id]
+      redirect_to movie_path(params[:movie_id])
+      flash[:invalid] = 'Must be registered and logged in to create a Viewing Party'
+    end
   end
 
   def create
-    viewing_party = ViewingParty.create!(viewing_party_params)
-    # refactor this to move to model or facade?
-    params[:user_ids].each do |id|
-      UserParty.create!(
-        user_id: id,
-        viewing_party_id: viewing_party.id
-      )
+    if session[:user_id]
+      viewing_party = ViewingParty.create!(viewing_party_params)
+      # refactor this to move to model or facade?
+      params[:user_ids].each do |id|
+        UserParty.create!(
+          user_id: id,
+          viewing_party_id: viewing_party.id
+        )
+      end
+      redirect_to dashboard_path(@user)
+    else
+      flash[:invalid] = 'Must be registered and logged in to create a Viewing Party'
     end
-    redirect_to user_path(@user)
   end
 
   private
 
   def find_user
-    @user = User.find(params[:user_id])
+    if session[:user_id]
+      @user = User.find(session[:user_id])
+    else
+      @user = nil
+    end
   end
 
   def viewing_party_params
